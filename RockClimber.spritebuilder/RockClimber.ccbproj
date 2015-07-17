@@ -95,6 +95,41 @@
 		</dict>
 		<key>Rock Climber Assets/Rock.png</key>
 		<dict/>
+		<key>Rock Climber Assets/WhiteBird-1.png</key>
+		<dict>
+			<key>isDirty</key>
+			<true/>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Rock Climber Assets/WhiteBird-2.png</key>
+		<dict>
+			<key>isDirty</key>
+			<true/>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Rock Climber Assets/WhiteBird-3.png</key>
+		<dict>
+			<key>isDirty</key>
+			<true/>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Rock Climber Assets/WhiteBird-4.png</key>
+		<dict>
+			<key>isDirty</key>
+			<true/>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Rock Climber Assets/WhiteBird-5.png</key>
+		<dict>
+			<key>isDirty</key>
+			<true/>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
 		<key>Sprites</key>
 		<dict/>
 		<key>ccbResources</key>

@@ -10,7 +10,7 @@
 		<false/>
 	</dict>
 	<key>UUID</key>
-	<integer>39</integer>
+	<integer>44</integer>
 	<key>centeredOrigin</key>
 	<false/>
 	<key>currentResolution</key>
@@ -164,8 +164,6 @@
 						<string>Background.ccb</string>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 			</dict>
 			<dict>
 				<key>UUID</key>
@@ -184,7 +182,7 @@
 						<key>customClass</key>
 						<string></string>
 						<key>displayName</key>
-						<string>goalNode</string>
+						<string>removeNodeRocks</string>
 						<key>memberVarAssignmentName</key>
 						<string></string>
 						<key>memberVarAssignmentType</key>
@@ -202,7 +200,7 @@
 							<key>collisionMask</key>
 							<array/>
 							<key>collisionType</key>
-							<string>goal</string>
+							<string>remove</string>
 							<key>cornerRadius</key>
 							<real>20</real>
 							<key>density</key>
@@ -287,6 +285,151 @@
 								<array>
 									<real>1</real>
 									<real>0.10000000149011612</real>
+									<integer>2</integer>
+									<integer>2</integer>
+								</array>
+							</dict>
+							<dict>
+								<key>name</key>
+								<string>anchorPoint</string>
+								<key>type</key>
+								<string>Point</string>
+								<key>value</key>
+								<array>
+									<real>0.0</real>
+									<real>0.0</real>
+								</array>
+							</dict>
+							<dict>
+								<key>name</key>
+								<string>scale</string>
+								<key>type</key>
+								<string>ScaleLock</string>
+								<key>value</key>
+								<array>
+									<real>1</real>
+									<real>1</real>
+									<false/>
+									<integer>0</integer>
+								</array>
+							</dict>
+						</array>
+						<key>selected</key>
+						<true/>
+					</dict>
+					<dict>
+						<key>UUID</key>
+						<integer>43</integer>
+						<key>baseClass</key>
+						<string>CCNode</string>
+						<key>children</key>
+						<array/>
+						<key>customClass</key>
+						<string></string>
+						<key>displayName</key>
+						<string>removeNodeBirds</string>
+						<key>memberVarAssignmentName</key>
+						<string></string>
+						<key>memberVarAssignmentType</key>
+						<integer>1</integer>
+						<key>physicsBody</key>
+						<dict>
+							<key>affectedByGravity</key>
+							<true/>
+							<key>allowsRotation</key>
+							<true/>
+							<key>bodyShape</key>
+							<integer>0</integer>
+							<key>collisionCategories</key>
+							<array/>
+							<key>collisionMask</key>
+							<array/>
+							<key>collisionType</key>
+							<string>remove</string>
+							<key>cornerRadius</key>
+							<real>20</real>
+							<key>density</key>
+							<real>1</real>
+							<key>dynamic</key>
+							<false/>
+							<key>elasticity</key>
+							<real>0.30000001192092896</real>
+							<key>friction</key>
+							<real>0.30000001192092896</real>
+							<key>points</key>
+							<array>
+								<array>
+									<real>-1.250679612159729</real>
+									<real>430.76821899414062</real>
+								</array>
+								<array>
+									<real>41.993816375732422</real>
+									<real>432.09628295898438</real>
+								</array>
+								<array>
+									<real>42.012969970703125</real>
+									<real>-0.84032922983169556</real>
+								</array>
+								<array>
+									<real>0.10000000149011612</real>
+									<real>0.0</real>
+								</array>
+							</array>
+							<key>polygons</key>
+							<array>
+								<array>
+									<array>
+										<real>0.10000000149011612</real>
+										<real>0.0</real>
+									</array>
+									<array>
+										<real>42.012969970703125</real>
+										<real>-0.84032922983169556</real>
+									</array>
+									<array>
+										<real>41.993816375732422</real>
+										<real>432.09628295898438</real>
+									</array>
+									<array>
+										<real>-1.250679612159729</real>
+										<real>430.76821899414062</real>
+									</array>
+								</array>
+							</array>
+						</dict>
+						<key>properties</key>
+						<array>
+							<dict>
+								<key>name</key>
+								<string>name</string>
+								<key>type</key>
+								<string>StringSimple</string>
+								<key>value</key>
+								<string></string>
+							</dict>
+							<dict>
+								<key>name</key>
+								<string>position</string>
+								<key>type</key>
+								<string>Position</string>
+								<key>value</key>
+								<array>
+									<real>-0.34302031993865967</real>
+									<real>0.0</real>
+									<integer>0</integer>
+									<integer>2</integer>
+									<integer>2</integer>
+								</array>
+							</dict>
+							<dict>
+								<key>name</key>
+								<string>contentSize</string>
+								<key>type</key>
+								<string>Size</string>
+								<key>value</key>
+								<array>
+									<real>0.10000000149011612</real>
+									<real>0.60000002384185791</real>
 									<integer>2</integer>
 									<integer>2</integer>
 								</array>
