@@ -43,7 +43,7 @@
 	<key>publishEnablediPhone</key>
 	<true/>
 	<key>publishEnvironment</key>
-	<integer>0</integer>
+	<integer>1</integer>
 	<key>publishResolution_android_phone</key>
 	<true/>
 	<key>publishResolution_android_phonehd</key>
@@ -83,6 +83,11 @@
 			<key>scaleFrom</key>
 			<integer>4</integer>
 		</dict>
+		<key>Rock Climber Assets/Pause Button.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
 		<key>Rock Climber Assets/Player-ClimbUp-1.png</key>
 		<dict>
 			<key>scaleFrom</key>
@@ -95,38 +100,43 @@
 		</dict>
 		<key>Rock Climber Assets/Rock.png</key>
 		<dict/>
-		<key>Rock Climber Assets/WhiteBird-1.png</key>
+		<key>Rock Climber Assets/Swipe Down.png</key>
 		<dict>
-			<key>isDirty</key>
-			<true/>
 			<key>scaleFrom</key>
 			<integer>4</integer>
 		</dict>
-		<key>Rock Climber Assets/WhiteBird-2.png</key>
+		<key>Rock Climber Assets/Swipe Left.png</key>
 		<dict>
-			<key>isDirty</key>
-			<true/>
 			<key>scaleFrom</key>
 			<integer>4</integer>
 		</dict>
-		<key>Rock Climber Assets/WhiteBird-3.png</key>
+		<key>Rock Climber Assets/Swipe Right.png</key>
 		<dict>
-			<key>isDirty</key>
-			<true/>
 			<key>scaleFrom</key>
 			<integer>4</integer>
 		</dict>
-		<key>Rock Climber Assets/WhiteBird-4.png</key>
+		<key>Rock Climber Assets/Swipe Up.png</key>
 		<dict>
-			<key>isDirty</key>
-			<true/>
 			<key>scaleFrom</key>
 			<integer>4</integer>
 		</dict>
-		<key>Rock Climber Assets/WhiteBird-5.png</key>
+		<key>Rock Climber Assets/spinning coin-1@4x.png</key>
 		<dict>
-			<key>isDirty</key>
-			<true/>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Rock Climber Assets/spinning coin-2@4x.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Rock Climber Assets/spinning coin-3@4x.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Rock Climber Assets/spinning coin-4@4x.png</key>
+		<dict>
 			<key>scaleFrom</key>
 			<integer>4</integer>
 		</dict>
