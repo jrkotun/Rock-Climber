@@ -3,6 +3,7 @@ import Foundation
 class GameOver: CCNode {
     weak var score: CCLabelTTF!
     weak var highScoreNumber: CCLabelTTF!
+    weak var coinsCollected: CCLabelTTF!
     
     func didLoadFromCCB() {
         updateHighScore()
@@ -18,11 +19,15 @@ class GameOver: CCNode {
         score.string = "\(lastScore)"
     }
     
+    func setCoinCollected(coins: Int) {
+        coinsCollected.string = "\(coins)"
+    }
+    
     func updateHighScore() {
         var newHighScore = NSUserDefaults.standardUserDefaults().integerForKey("highScore")
         highScoreNumber.string = "\(newHighScore)"
     }
-    
+
     func restart() {
         var mainScene = CCBReader.load("MainScene") as! MainScene
         mainScene.ready()

@@ -43,7 +43,7 @@
 	<key>publishEnablediPhone</key>
 	<true/>
 	<key>publishEnvironment</key>
-	<integer>1</integer>
+	<integer>0</integer>
 	<key>publishResolution_android_phone</key>
 	<true/>
 	<key>publishResolution_android_phonehd</key>
@@ -78,6 +78,36 @@
 			<key>previewFolderHidden</key>
 			<true/>
 		</dict>
+		<key>Rock Climber Assets/AngryFlappy-1.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Rock Climber Assets/AngryFlappy-2.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Rock Climber Assets/Armor Upgrade.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Rock Climber Assets/Coin.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Rock Climber Assets/Golden Upgrade.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Rock Climber Assets/Magnet Upgrade.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
 		<key>Rock Climber Assets/Mountain Background.png</key>
 		<dict>
 			<key>scaleFrom</key>
@@ -88,18 +118,41 @@
 			<key>scaleFrom</key>
 			<integer>4</integer>
 		</dict>
-		<key>Rock Climber Assets/Player-ClimbUp-1.png</key>
-		<dict>
-			<key>scaleFrom</key>
-			<integer>4</integer>
-		</dict>
-		<key>Rock Climber Assets/Player-ClimbUp-2.png</key>
+		<key>Rock Climber Assets/Rock Wall.png</key>
 		<dict>
 			<key>scaleFrom</key>
 			<integer>4</integer>
 		</dict>
 		<key>Rock Climber Assets/Rock.png</key>
-		<dict/>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Rock Climber Assets/Rope.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Rock Climber Assets/Spinning Coin 1.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Rock Climber Assets/Spinning Coin 2.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Rock Climber Assets/Spinning Coin 3.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Rock Climber Assets/Spinning Coin 4.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
 		<key>Rock Climber Assets/Swipe Down.png</key>
 		<dict>
 			<key>scaleFrom</key>
@@ -120,22 +173,52 @@
 			<key>scaleFrom</key>
 			<integer>4</integer>
 		</dict>
-		<key>Rock Climber Assets/spinning coin-1@4x.png</key>
+		<key>Rock Climber Assets/hero_climbing0001.png</key>
 		<dict>
 			<key>scaleFrom</key>
 			<integer>4</integer>
 		</dict>
-		<key>Rock Climber Assets/spinning coin-2@4x.png</key>
+		<key>Rock Climber Assets/hero_climbing0002.png</key>
 		<dict>
 			<key>scaleFrom</key>
 			<integer>4</integer>
 		</dict>
-		<key>Rock Climber Assets/spinning coin-3@4x.png</key>
+		<key>Rock Climber Assets/hero_climbing0003.png</key>
 		<dict>
 			<key>scaleFrom</key>
 			<integer>4</integer>
 		</dict>
-		<key>Rock Climber Assets/spinning coin-4@4x.png</key>
+		<key>Rock Climber Assets/hero_climbing0004.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Rock Climber Assets/hero_climbing0005.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Rock Climber Assets/hero_climbing0006.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Rock Climber Assets/hero_climbing0007.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Rock Climber Assets/hero_climbing0008.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Rock Climber Assets/ladder2@3x.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Rock Climber Assets/wall_with_window4@3x.png</key>
 		<dict>
 			<key>scaleFrom</key>
 			<integer>4</integer>
