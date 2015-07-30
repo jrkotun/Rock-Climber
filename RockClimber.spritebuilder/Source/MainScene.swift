@@ -49,8 +49,8 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     var coinActivator = 0
     var obstacleActivator = 0
     var trigger = 0
-    var magnetPowerUpDuration = 10.0
     var magnetSpeed: CGFloat = 3.0
+    var magnetPowerUpDuration = 10.0
     var armorPowerUpDuration = 10.0
     var goldenPowerUpDuration = 7.0
     
