@@ -49,9 +49,11 @@
 		8933B61B1B602569007D5F13 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8933B61A1B602569007D5F13 /* Store.swift */; };
 		8933B6231B6030D8007D5F13 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8933B6221B6030D8007D5F13 /* Player.swift */; };
 		8933B6251B605435007D5F13 /* ArmorPowerUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8933B6241B605435007D5F13 /* ArmorPowerUp.swift */; };
-		8933B62D1B60CDDA007D5F13 /* GoldenPowerUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8933B62C1B60CDDA007D5F13 /* GoldenPowerUp.swift */; };
+		8933B62D1B60CDDA007D5F13 /* StarPowerUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8933B62C1B60CDDA007D5F13 /* StarPowerUp.swift */; };
 		8933B62F1B61713B007D5F13 /* MagnetPowerUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8933B62E1B61713B007D5F13 /* MagnetPowerUp.swift */; };
 		89533E3D1B6986C4003C2595 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89533E3C1B6986C4003C2595 /* Images.xcassets */; };
+		897E41F71B6ECBA0008E7100 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 897E41F61B6ECBA0008E7100 /* Fonts */; };
+		897E41FD1B700AE1008E7100 /* UpdateMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 897E41FC1B700AE1008E7100 /* UpdateMenu.swift */; };
 		89F796811B5866B0000B7917 /* Bird.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F796801B5866B0000B7917 /* Bird.swift */; };
 		89FB5C1E1B548167001AB056 /* GameOver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89FB5C1D1B548167001AB056 /* GameOver.swift */; };
 		927F61A5196C771E000F43EF /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B77F1B3517B978D7009739AE /* OpenAL.framework */; };
@@ -187,9 +189,11 @@
 		8933B61A1B602569007D5F13 /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		8933B6221B6030D8007D5F13 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		8933B6241B605435007D5F13 /* ArmorPowerUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArmorPowerUp.swift; sourceTree = "<group>"; };
-		8933B62C1B60CDDA007D5F13 /* GoldenPowerUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoldenPowerUp.swift; sourceTree = "<group>"; };
+		8933B62C1B60CDDA007D5F13 /* StarPowerUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarPowerUp.swift; sourceTree = "<group>"; };
 		8933B62E1B61713B007D5F13 /* MagnetPowerUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagnetPowerUp.swift; sourceTree = "<group>"; };
 		89533E3C1B6986C4003C2595 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		897E41F61B6ECBA0008E7100 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
+		897E41FC1B700AE1008E7100 /* UpdateMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateMenu.swift; sourceTree = "<group>"; };
 		89F796801B5866B0000B7917 /* Bird.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bird.swift; sourceTree = "<group>"; };
 		89FB5C1D1B548167001AB056 /* GameOver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOver.swift; sourceTree = "<group>"; };
 		927F61BF196C771E000F43EF /* RockClimber Android.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RockClimber Android.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -455,10 +459,11 @@
 			isa = PBXGroup;
 			children = (
 				7A40362019DDEF0D007B6E8F /* Platforms */,
-				7A046D7519E84C36004C4763 /* MainScene.swift */,
 				89533E3C1B6986C4003C2595 /* Images.xcassets */,
+				7A046D7519E84C36004C4763 /* MainScene.swift */,
 				8933B62E1B61713B007D5F13 /* MagnetPowerUp.swift */,
-				8933B62C1B60CDDA007D5F13 /* GoldenPowerUp.swift */,
+				8933B62C1B60CDDA007D5F13 /* StarPowerUp.swift */,
+				897E41FC1B700AE1008E7100 /* UpdateMenu.swift */,
 				8933B6241B605435007D5F13 /* ArmorPowerUp.swift */,
 				8933B6221B6030D8007D5F13 /* Player.swift */,
 				8933B61A1B602569007D5F13 /* Store.swift */,
@@ -545,6 +550,7 @@
 		B77F1B4617B978D7009739AE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				897E41F61B6ECBA0008E7100 /* Fonts */,
 				7A40366119DDF8C2007B6E8F /* Platforms */,
 				5B12100D197483EE004C1E1D /* res */,
 				B73789911807667A0076A88C /* Icons */,
@@ -768,6 +774,7 @@
 				B71F5915188484E7003F4D28 /* iPhone-old.png in Resources */,
 				B71F5917188484E7003F4D28 /* iPhone.png in Resources */,
 				B7378975180762440076A88C /* Default-568h@2x.png in Resources */,
+				897E41F71B6ECBA0008E7100 /* Fonts in Resources */,
 				B71F5918188484E7003F4D28 /* iPhone@2x.png in Resources */,
 				B7378977180762440076A88C /* Default.png in Resources */,
 				B71F5911188484E7003F4D28 /* iPad-old.png in Resources */,
@@ -846,8 +853,9 @@
 			files = (
 				8933B62F1B61713B007D5F13 /* MagnetPowerUp.swift in Sources */,
 				8933B6251B605435007D5F13 /* ArmorPowerUp.swift in Sources */,
-				8933B62D1B60CDDA007D5F13 /* GoldenPowerUp.swift in Sources */,
+				8933B62D1B60CDDA007D5F13 /* StarPowerUp.swift in Sources */,
 				8921491D1B54390300A8EACE /* Rock.swift in Sources */,
+				897E41FD1B700AE1008E7100 /* UpdateMenu.swift in Sources */,
 				89F796811B5866B0000B7917 /* Bird.swift in Sources */,
 				B73789871807631A0076A88C /* main.m in Sources */,
 				8933B61B1B602569007D5F13 /* Store.swift in Sources */,

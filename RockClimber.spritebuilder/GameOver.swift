@@ -7,6 +7,7 @@ class GameOver: CCNode {
     
     func didLoadFromCCB() {
         updateHighScore()
+        OALSimpleAudio.sharedInstance().playBg("Music/GameOver.wav", loop:false)
     }
     
     override func update(delta: CCTime) {
@@ -31,24 +32,19 @@ class GameOver: CCNode {
     func restart() {
         var mainScene = CCBReader.load("MainScene") as! MainScene
         mainScene.ready()
-        
         var scene = CCScene()
         scene.addChild(mainScene)
-        
         var transition = CCTransition(fadeWithDuration: 0.3)
-        
         CCDirector.sharedDirector().presentScene(scene, withTransition: transition)
+        OALSimpleAudio.sharedInstance().stopBg()
     }
     
     func titleMenu() {
         var mainScene = CCBReader.load("MainScene") as! MainScene
         mainScene.titleMenu()
-        
         var scene = CCScene()
         scene.addChild(mainScene)
-        
         var transition = CCTransition(fadeWithDuration: 0.3)
-        
         CCDirector.sharedDirector().presentScene(scene, withTransition: transition)
     }
 }

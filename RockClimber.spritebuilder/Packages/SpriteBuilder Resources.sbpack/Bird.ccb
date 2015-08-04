@@ -114,7 +114,7 @@
 			<key>collisionType</key>
 			<string>obstacle</string>
 			<key>cornerRadius</key>
-			<real>23</real>
+			<real>20</real>
 			<key>density</key>
 			<real>1</real>
 			<key>dynamic</key>
@@ -230,6 +230,8 @@
 				<array/>
 			</dict>
 		</array>
+		<key>selected</key>
+		<true/>
 	</dict>
 	<key>notes</key>
 	<array/>

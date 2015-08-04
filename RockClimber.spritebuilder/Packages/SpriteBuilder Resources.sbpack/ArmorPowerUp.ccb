@@ -164,7 +164,7 @@
 						<key>value</key>
 						<array>
 							<real>1</real>
-							<real>50</real>
+							<real>0.0</real>
 						</array>
 					</dict>
 					<dict>
@@ -174,7 +174,7 @@
 						<string>FloatVar</string>
 						<key>value</key>
 						<array>
-							<real>75</real>
+							<real>10</real>
 							<real>0.0</real>
 						</array>
 					</dict>
@@ -219,14 +219,14 @@
 						<key>value</key>
 						<array>
 							<array>
-								<real>0.0</real>
-								<real>0.0</real>
+								<real>1</real>
+								<real>1</real>
 								<real>1</real>
 								<real>1</real>
 							</array>
 							<array>
-								<real>0.0</real>
-								<real>0.0</real>
+								<real>1</real>
+								<real>1</real>
 								<real>1</real>
 								<real>1</real>
 							</array>
@@ -240,14 +240,14 @@
 						<key>value</key>
 						<array>
 							<array>
-								<real>0.0</real>
-								<real>0.0</real>
+								<real>1</real>
+								<real>1</real>
 								<real>1</real>
 								<real>1</real>
 							</array>
 							<array>
-								<real>0.0</real>
-								<real>0.0</real>
+								<real>1</real>
+								<real>1</real>
 								<real>1</real>
 								<real>1</real>
 							</array>
@@ -325,6 +325,8 @@
 						<string>ccbResources/ccbParticleMagic.png</string>
 					</dict>
 				</array>
+				<key>selected</key>
+				<true/>
 			</dict>
 		</array>
 		<key>customClass</key>
@@ -352,7 +354,7 @@
 			<key>cornerRadius</key>
 			<real>0.0</real>
 			<key>density</key>
-			<real>2</real>
+			<real>1</real>
 			<key>dynamic</key>
 			<true/>
 			<key>elasticity</key>
@@ -367,14 +369,14 @@
 				</array>
 				<array>
 					<real>0.0</real>
-					<real>58</real>
+					<real>21</real>
 				</array>
 				<array>
-					<real>58</real>
-					<real>58</real>
+					<real>19</real>
+					<real>21</real>
 				</array>
 				<array>
-					<real>58</real>
+					<real>19</real>
 					<real>0.0</real>
 				</array>
 			</array>
@@ -382,16 +384,16 @@
 			<array>
 				<array>
 					<array>
-						<real>58</real>
+						<real>19</real>
 						<real>0.0</real>
 					</array>
 					<array>
-						<real>58</real>
-						<real>58</real>
+						<real>19</real>
+						<real>21</real>
 					</array>
 					<array>
 						<real>0.0</real>
-						<real>58</real>
+						<real>21</real>
 					</array>
 					<array>
 						<real>0.0</real>
@@ -456,7 +458,7 @@
 				<key>value</key>
 				<array>
 					<string></string>
-					<string>Rock Climber Assets/Armor Upgrade.png</string>
+					<string>Rock Climber Assets/Shield.png</string>
 				</array>
 			</dict>
 			<dict>
@@ -492,8 +494,6 @@
 				<array/>
 			</dict>
 		</array>
-		<key>selected</key>
-		<true/>
 	</dict>
 	<key>notes</key>
 	<array/>

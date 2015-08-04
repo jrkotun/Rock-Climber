@@ -93,6 +93,11 @@
 			<key>scaleFrom</key>
 			<integer>4</integer>
 		</dict>
+		<key>Rock Climber Assets/Bar.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
 		<key>Rock Climber Assets/Coin.png</key>
 		<dict>
 			<key>scaleFrom</key>
@@ -104,6 +109,11 @@
 			<integer>4</integer>
 		</dict>
 		<key>Rock Climber Assets/Magnet Upgrade.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Rock Climber Assets/Money Sign.png</key>
 		<dict>
 			<key>scaleFrom</key>
 			<integer>4</integer>
@@ -152,6 +162,11 @@
 		<dict>
 			<key>scaleFrom</key>
 			<integer>4</integer>
+		</dict>
+		<key>Rock Climber Assets/Star Theme.wav</key>
+		<dict>
+			<key>format_ios_sound</key>
+			<integer>1</integer>
 		</dict>
 		<key>Rock Climber Assets/Swipe Down.png</key>
 		<dict>

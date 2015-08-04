@@ -2,10 +2,16 @@ import Foundation
 
 class Store: CCNode {
     weak var totalCoinLabel: CCLabelTTF!
+    let defaults = NSUserDefaults.standardUserDefaults()
+    var totalCoins = NSUserDefaults.standardUserDefaults().integerForKey("totalCoins")
     
     func didLoadFromCCB() {
-        let defaults = NSUserDefaults.standardUserDefaults()
-        var totalCoins = defaults.integerForKey("totalCoins")
+        totalCoinLabel.string = "\(totalCoins)"
+    }
+    
+    override func update(delta: CCTime) {
+        defaults.synchronize()
+        totalCoins = defaults.integerForKey("totalCoins")
         totalCoinLabel.string = "\(totalCoins)"
     }
     
