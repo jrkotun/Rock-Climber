@@ -99,7 +99,6 @@ extern NSString * cocos2dVersion(void);
 @implementation CCDirector {
 	CCFrameBufferObject *_framebuffer;
 }
-
 @synthesize animationInterval = _animationInterval;
 @synthesize runningScene = _runningScene;
 @synthesize displayStats = _displayStats;

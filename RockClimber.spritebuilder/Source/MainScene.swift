@@ -1,4 +1,5 @@
 import Foundation
+import GameKit
 
 enum GameState {
     case Title, Store, Ready, Playing, Paused, Magnet, Armor, Golden, GameOver
@@ -25,11 +26,14 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     weak var rightRope2: CCNode!
     weak var gamePhysicsNode: CCPhysicsNode!
     weak var swipeIndicators: CCNode!
+    weak var pauseButton: CCButton!
     weak var pauseScreen: CCNode!
     weak var scoreLabel: CCLabelTTF!
     weak var coinCountNode: CCNode!
     weak var coinLabel: CCLabelTTF!
     weak var movementRange: CCNodeGradient!
+    weak var soundOnOffButton: CCButton!
+    weak var soundDescription: CCLabelTTF!
     let defaults = NSUserDefaults.standardUserDefaults()
     var gameState: GameState = .Title
     var level: Level = .Level1
@@ -84,6 +88,13 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             }
         }
     }
+    var obstacleCoin: Bool = false {
+        didSet {
+            if defaults.boolForKey("obstacleCoin") != oldValue {
+                obstacleCoin = defaults.boolForKey("obstacleCoin")
+            }
+        }
+    }
     var starDuration: Double = 0.0 {
         didSet {
             if defaults.doubleForKey("starDuration") > oldValue {
@@ -91,17 +102,41 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             }
         }
     }
+    var starBoost: Double = 0.0 {
+        didSet {
+            if defaults.doubleForKey("starBoost") > oldValue {
+                starBoost = defaults.doubleForKey("starBoost")
+            }
+        }
+    }
+    var starCoins: Bool = false {
+        didSet {
+            if defaults.boolForKey("starCoins") != oldValue {
+                starCoins = defaults.boolForKey("starCoins")
+            }
+        }
+    }
     
     func didLoadFromCCB() {
+        setUpGameCenter()
+        loadPlayer()
         userInteractionEnabled = true
         gamePhysicsNode.collisionDelegate = self
-        loadPlayer()
         magnetDuration = 10.0
         magnetSpeed = 3.0
         magnetCoinModifier = 0
         armorDuration = 10.0
         armorPenalty = 2.0
+        obstacleCoin = false
         starDuration = 10.0
+        starBoost = 2.0
+        starCoins = false
+        OALSimpleAudio.sharedInstance().preloadEffect("Music and Sounds/GameOver.wav")
+    }
+    
+    func setUpGameCenter() {
+        let gameCenterInteractor = GameCenterInteractor.sharedInstance
+        gameCenterInteractor.authenticationCheck()
     }
     
     func loadPlayer() {
@@ -110,7 +145,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         gamePhysicsNode.addChild(player)
         player.position = ccp(0.5, 0.45)
     }
-
+    
     override func update(delta: CCTime) {
         backgroundMovement()
         if gameState == .Playing || gameState == .Magnet || gameState == .Armor || gameState == .Golden {
@@ -185,12 +220,14 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             leftRope2.physicsBody.affectedByGravity = true
             leftMovementLimit = 0.4
             level = .Level5
+            trigger = 1
             modifier++
         } else if score > 50000 && gameState == .Playing && level == .Level5 && player.position.x < 0.8 {
             rightRope1.physicsBody.affectedByGravity = true
             rightRope2.physicsBody.affectedByGravity = true
             rightMovementLimit = 0.6
             level = .LastLevel
+            trigger = 2
             modifier++
         } else {
             return
@@ -231,10 +268,10 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             scroller = 2
         }
         
-        if (leftRope1.position.y + 1) < mainScene.position.y {
+        if (leftRope1.position.y + 1) < mainScene.position.y && leftRope1.physicsBody.affectedByGravity == false {
             leftRope1.position.y = 1
         }
-        if (leftRope2.position.y + 1) < mainScene.position.y {
+        if (leftRope2.position.y + 1) < mainScene.position.y && leftRope2.physicsBody.affectedByGravity == false {
             leftRope2.position.y = 1
         }
         
@@ -259,72 +296,22 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             rightOfMiddleRope2.position.y = 1
         }
         
-        if (rightRope1.position.y + 1) < mainScene.position.y {
+        if (rightRope1.position.y + 1) < mainScene.position.y && rightRope1.physicsBody.affectedByGravity == false {
             rightRope1.position.y = 1
         }
-        if (rightRope2.position.y + 1) < mainScene.position.y {
+        if (rightRope2.position.y + 1) < mainScene.position.y && rightRope2.physicsBody.affectedByGravity == false {
             rightRope2.position.y = 1
         }
     }
     
-    func store() {
-        gameState = .Store
-        var store = CCBReader.load("Store") as! Store
-        var scene = CCScene()
-        scene.addChild(store)
-        var transition = CCTransition(fadeWithDuration: 0.3)
-        CCDirector.sharedDirector().presentScene(scene, withTransition: transition)
-    }
-    
     func ready() {
-        gameState = .Ready
-        swipeIndicators.visible = true
-        movementRange.visible = true
-        self.animationManager.runAnimationsForSequenceNamed("Ready")
-        setupGestures()
-    }
-    
-    override func touchBegan(touch: CCTouch!, withEvent event: CCTouchEvent!) {
-        if gameState == .GameOver || gameState == .Title || gameState == .Paused {
-            return
+        if gameState == .Title {
+            gameState = .Ready
+            swipeIndicators.visible = true
+            movementRange.visible = true
+            self.animationManager.runAnimationsForSequenceNamed("Ready")
+            setupGestures()
         }
-        if gameState == .Ready {
-            startGame()
-        }
-    }
-    
-    func startGame() {
-        gameState = .Playing
-        swipeIndicators.visible = false
-        movementRange.visible = false
-        scoreLabel.visible = true
-        coinCountNode.visible = true
-        startObstacles()
-    }
-    
-    func resume() {
-        gameState = tempGameState
-        pauseScreen.visible = false
-        mainScene.paused = false
-        setupGestures()
-    }
-    
-    func titleMenu() {
-        gameState = .Title
-        var titleScreen = CCBReader.load("MainScene") as! MainScene
-        var scene = CCScene()
-        scene.addChild(titleScreen)
-        var transition = CCTransition(fadeWithDuration: 0.3)
-        CCDirector.sharedDirector().presentScene(scene, withTransition: transition)
-    }
-    
-    func restart() {
-        var mainScene = CCBReader.load("MainScene") as! MainScene
-        mainScene.ready()
-        var scene = CCScene()
-        scene.addChild(mainScene)
-        var transition = CCTransition(fadeWithDuration: 0.3)
-        CCDirector.sharedDirector().presentScene(scene, withTransition: transition)
     }
     
     func setupGestures() {
@@ -343,21 +330,17 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         var swipeDown = UISwipeGestureRecognizer(target: self, action: "swipeDown")
         swipeDown.direction = .Down
         CCDirector.sharedDirector().view.addGestureRecognizer(swipeDown)
-        
-        var doubleTap = UITapGestureRecognizer(target: self, action: "pause")
-        doubleTap.numberOfTapsRequired = 2
-        CCDirector.sharedDirector().view.addGestureRecognizer(doubleTap)
     }
     
     func swipeLeft() {
         if player.position.x > leftMovementLimit {
-            player.position = ccp(player.position.x - 0.20, player.position.y)
+            player.position = ccp(player.position.x - 0.2, player.position.y)
         }
     }
     
     func swipeRight() {
         if player.position.x < rightMovementLimit {
-            player.position = ccp(player.position.x + 0.20, player.position.y)
+            player.position = ccp(player.position.x + 0.2, player.position.y)
         }
     }
     
@@ -373,6 +356,74 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         }
     }
     
+    func disableGestures() {
+        if let recognizers = CCDirector.sharedDirector().view.gestureRecognizers {
+            for recognizer in recognizers {
+                CCDirector.sharedDirector().view.removeGestureRecognizer(recognizer as! UIGestureRecognizer)
+            }
+        }
+    }
+    
+    func store() {
+        if gameState == .Title {
+            gameState = .Store
+            var store = CCBReader.load("Store") as! Store
+            var scene = CCScene()
+            scene.addChild(store)
+            var transition = CCTransition(fadeWithDuration: 0.3)
+            CCDirector.sharedDirector().presentScene(scene, withTransition: transition)
+        }
+    }
+    
+    func share() {
+        if gameState == .Title && UIDevice.currentDevice().userInterfaceIdiom != .Pad {
+            var scene = CCDirector.sharedDirector().runningScene
+            var n: AnyObject = scene.children[0]
+            var image = screenShotWithStartNode(n as! CCNode)
+            
+            let sharedText = "Share text"
+            let itemsToShare = [image, sharedText]
+            
+            var excludedActivities = [UIActivityTypePrint, UIActivityTypeCopyToPasteboard,
+                UIActivityTypeAssignToContact, UIActivityTypeSaveToCameraRoll,
+                UIActivityTypeAddToReadingList, UIActivityTypePostToTencentWeibo,UIActivityTypeAirDrop]
+            
+            var controller = UIActivityViewController(activityItems: itemsToShare, applicationActivities: nil)
+            controller.excludedActivityTypes = excludedActivities
+            
+            UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(controller, animated: true, completion: nil)
+        }
+    }
+    
+    func screenShotWithStartNode(node: CCNode) -> UIImage {
+        CCDirector.sharedDirector().nextDeltaTimeZero = true
+        var viewSize2 = CCDirector.sharedDirector().viewSize()
+        var rtx = CCRenderTexture(width: Int32(viewSize2.width), height: Int32(viewSize2.height))
+        rtx.begin()
+        node.visit()
+        rtx.end()
+        return rtx.getUIImage()
+    }
+    
+    override func touchBegan(touch: CCTouch!, withEvent event: CCTouchEvent!) {
+        if gameState == .GameOver || gameState == .Title || gameState == .Paused {
+            return
+        }
+        if gameState == .Ready {
+            startGame()
+        }
+    }
+    
+    func startGame() {
+        gameState = .Playing
+        swipeIndicators.visible = false
+        movementRange.visible = false
+        scoreLabel.visible = true
+        coinCountNode.visible = true
+        pauseButton.visible = true
+        startObstacles()
+    }
+    
     func pause() {
         if gameState == .Playing || gameState == .Magnet || gameState == .Armor || gameState == .Golden {
             tempGameState = gameState
@@ -383,11 +434,35 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         }
     }
     
-    func disableGestures() {
-        if let recognizers = CCDirector.sharedDirector().view.gestureRecognizers {
-            for recognizer in recognizers {
-                CCDirector.sharedDirector().view.removeGestureRecognizer(recognizer as! UIGestureRecognizer)
-            }
+    func resume() {
+        if gameState == .Paused {
+            gameState = tempGameState
+            pauseScreen.visible = false
+            mainScene.paused = false
+            setupGestures()
+        }
+    }
+    
+    func restart() {
+        if gameState == .Paused {
+            var mainScene = CCBReader.load("MainScene") as! MainScene
+            mainScene.ready()
+            var scene = CCScene()
+            scene.addChild(mainScene)
+            var transition = CCTransition(fadeWithDuration: 0.3)
+            CCDirector.sharedDirector().presentScene(scene, withTransition: transition)
+            
+        }
+    }
+    
+    func titleMenu() {
+        if gameState == .Paused || gameState == .GameOver || gameState == .Store {
+            gameState = .Title
+            var titleScreen = CCBReader.load("MainScene") as! MainScene
+            var scene = CCScene()
+            scene.addChild(titleScreen)
+            var transition = CCTransition(fadeWithDuration: 0.3)
+            CCDirector.sharedDirector().presentScene(scene, withTransition: transition)
         }
     }
     
@@ -404,11 +479,9 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         
         var randomPosition = CCRANDOM_0_1() * 6
         switch randomPosition {
-        case 0..<2.1:
+        case 0..<4.2:
             rock.position = ccp(player.position.x, 1.1)
-        case 2.1..<4.2:
-            rock.position = ccp(player.position.x, 1.1)
-        default:
+        case 4.2...6:
             if randomPosition < 4.56 {
                 rock.position = ccp(0.1, 1.1)
             } else if randomPosition < 4.92 {
@@ -420,75 +493,109 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             } else {
                 rock.position = ccp(0.9, 1.1)
             }
+        default:
+            return
         }
         
-        var randomImpulse = CCRANDOM_0_1() * 3
+        var randomImpulse = Int(arc4random_uniform(3))
         switch randomImpulse {
-        case 0..<1:
+        case 0:
             rock.physicsBody.applyImpulse(ccp(0, CGFloat(rockImpulse[0])))
-        case 1..<2:
+        case 1:
             rock.physicsBody.applyImpulse(ccp(0, CGFloat(rockImpulse[1])))
-        default:
+        case 2:
             rock.physicsBody.applyImpulse(ccp(0, CGFloat(rockImpulse[2])))
+        default:
+           return
         }
     }
     
     func flyingBirds() {
         var bird = CCBReader.load("Bird") as! Bird
-        gamePhysicsNode.addChild(bird)
         bird.positionType = CCPositionType(xUnit: .Normalized, yUnit: .Normalized, corner: .BottomLeft)
+        gamePhysicsNode.addChild(bird)
         
         var randomPosition = CCRANDOM_0_1() * 10
+        var extraRandomPosition = Int(arc4random_uniform(4))
         switch randomPosition {
-        case 0..<3.5:
-            bird.position = ccp(1.1, player.position.y)
-            bird.flipX = true
-        case 3.5..<7:
-            bird.position = ccp(-0.1, player.position.y)
-        default:
-            if randomPosition < 7.375 {
-                bird.position = ccp(1.1, 0.25)
+        case 0..<7:
+            if player.position.x < 0.4 {
+                bird.position = ccp(1.1, player.position.y)
                 bird.flipX = true
-            } else if randomPosition < 7.75 {
-                bird.position = ccp(1.1, 0.35)
-                bird.flipX = true
-            } else if randomPosition < 8.125 {
-                bird.position = ccp(1.1, 0.45)
-                bird.flipX = true
-            } else if randomPosition < 8.5 {
-                bird.position = ccp(1.1, 0.55)
-                bird.flipX = true
-            } else if randomPosition < 8.875 {
-                bird.position = ccp(-0.1, 0.55)
-            } else if randomPosition < 9.25 {
-                bird.position = ccp(-0.1, 0.35)
-            } else if randomPosition < 9.625 {
-                bird.position = ccp(-0.1, 0.45)
+            } else if player.position.x > 0.6 {
+                bird.position = ccp(-0.1, player.position.y)
             } else {
-                bird.position = ccp(-0.1, 0.25)
+                if randomPosition < 3.5 {
+                    bird.position = ccp(1.1, player.position.y)
+                    bird.flipX = true
+                } else {
+                    bird.position = ccp(-0.1, player.position.y)
+                }
             }
+        case 7...10:
+            if player.position.x < 0.4 {
+                if extraRandomPosition == 0 {
+                    bird.position = ccp(1.1, 0.25)
+                    bird.flipX = true
+                } else if extraRandomPosition == 1 {
+                    bird.position = ccp(1.1, 0.35)
+                    bird.flipX = true
+                } else if extraRandomPosition == 2 {
+                    bird.position = ccp(1.1, 0.45)
+                    bird.flipX = true
+                } else {
+                    bird.position = ccp(1.1, 0.55)
+                    bird.flipX = true
+                }
+            } else if player.position.x > 0.6 {
+                if extraRandomPosition == 0 {
+                    bird.position = ccp(-0.1, 0.25)
+                } else if extraRandomPosition == 1 {
+                    bird.position = ccp(-0.1, 0.35)
+                } else if extraRandomPosition == 2 {
+                    bird.position = ccp(-0.1, 0.45)
+                } else {
+                    bird.position = ccp(-0.1, 0.55)
+                }
+            } else {
+                if extraRandomPosition == 0 {
+                    bird.position = ccp(-0.1, 0.25)
+                } else if extraRandomPosition == 1 {
+                    bird.position = ccp(1.1, 0.35)
+                    bird.flipX = true
+                } else if extraRandomPosition == 2 {
+                    bird.position = ccp(-0.1, 0.45)
+                } else {
+                    bird.position = ccp(1.1, 0.55)
+                    bird.flipX = true
+                }
+            }
+        default:
+            return
         }
         
-        var randomSpeed = CCRANDOM_0_1() * 3
+        var randomSpeed = Int(arc4random_uniform(3))
         switch randomSpeed {
-        case 0..<1:
+        case 0:
             if bird.flipX == true {
                 bird.physicsBody.applyImpulse(ccp(CGFloat(-birdImpulse[0]), 0))
             } else {
                 bird.physicsBody.applyImpulse(ccp(CGFloat(birdImpulse[0]), 0))
             }
-        case 1..<2:
+        case 1:
             if bird.flipX == true {
                 bird.physicsBody.applyImpulse(ccp(CGFloat(-birdImpulse[1]), 0))
             } else {
                 bird.physicsBody.applyImpulse(ccp(CGFloat(birdImpulse[1]), 0))
             }
-        default:
+        case 2:
             if bird.flipX == true {
                 bird.physicsBody.applyImpulse(ccp(CGFloat(-birdImpulse[2]), 0))
             } else {
                 bird.physicsBody.applyImpulse(ccp(CGFloat(birdImpulse[2]), 0))
             }
+        default:
+            return
         }
     }
     
@@ -499,11 +606,11 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         var ySetOff: CGFloat = 0.0
         
         for (var i = 0; i < 5; i++) {
-            
-            if trigger == 4 {
+    
+            if trigger == 1 {
                 xSetOff = 0.3
                 coinColumn = 4
-            } else if trigger >= 5 {
+            } else if trigger == 2 {
                 xSetOff = 0.3
                 coinColumn = 3
             } else {
@@ -525,47 +632,149 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     }
     
     func spawnPowerUps() {
-        var random = CCRANDOM_0_1() * 10
-        var randomPosition = CCRANDOM_0_1() * 3
-        switch random {
-        case 0..<4:
+        var randomPowerup = CCRANDOM_0_1() * 10
+        var randomPosition = CCRANDOM_0_1() * 5
+        switch randomPowerup {
+        case 0..<4.5:
             var magnet = CCBReader.load("MagnetPowerUp") as! MagnetPowerUp
             magnet.scale = 0.4
             magnet.positionType = CCPositionType(xUnit: .Normalized, yUnit: .Normalized, corner: .BottomLeft)
             gamePhysicsNode.addChild(magnet)
-            switch randomPosition {
-            case 0..<1:
-                magnet.position = ccp(0.3, 1.1)
-            case 1..<2:
-                magnet.position = ccp(0.5, 1.1)
-            default:
-                magnet.position = ccp(0.7, 1.1)
+            if trigger == 1 {
+                randomPosition = CCRANDOM_0_1() * 4
+                switch randomPosition {
+                case 0..<1:
+                    magnet.position = ccp(0.3, 1.1)
+                case 1..<2:
+                    magnet.position = ccp(0.5, 1.1)
+                case 2..<3:
+                    magnet.position = ccp(0.7, 1.1)
+                case 3...4:
+                    magnet.position = ccp(0.9, 1.1)
+                default:
+                    return
+                }
+            } else if trigger == 2 {
+                randomPosition = CCRANDOM_0_1() * 3
+                switch randomPosition {
+                case 0..<1:
+                    magnet.position = ccp(0.3, 1.1)
+                case 1..<2:
+                    magnet.position = ccp(0.5, 1.1)
+                case 2...3:
+                    magnet.position = ccp(0.7, 1.1)
+                default:
+                    return
+                }
+            } else {
+                switch randomPosition {
+                case 0..<1:
+                    magnet.position = ccp(0.1, 1.1)
+                case 1..<2:
+                    magnet.position = ccp(0.3, 1.1)
+                case 2..<3:
+                    magnet.position = ccp(0.5, 1.1)
+                case 3..<4:
+                    magnet.position = ccp(0.7, 1.1)
+                case 4..<5:
+                    magnet.position = ccp(0.9, 1.1)
+                default:
+                    return
+                }
             }
-        case 4..<8:
+        case 4.5..<9:
             var armor = CCBReader.load("ArmorPowerUp") as! ArmorPowerUp
             armor.scale = 1.5
             armor.positionType = CCPositionType(xUnit: .Normalized, yUnit: .Normalized, corner: .BottomLeft)
             gamePhysicsNode.addChild(armor)
-            switch randomPosition {
-            case 0..<1:
-                armor.position = ccp(0.3, 1.1)
-            case 1..<2:
-                armor.position = ccp(0.5, 1.1)
-            default:
-                armor.position = ccp(0.7, 1.1)
+            if trigger == 1 {
+                randomPosition = CCRANDOM_0_1() * 4
+                switch randomPosition {
+                case 0..<1:
+                    armor.position = ccp(0.3, 1.1)
+                case 1..<2:
+                    armor.position = ccp(0.5, 1.1)
+                case 2..<3:
+                    armor.position = ccp(0.7, 1.1)
+                case 3...4:
+                    armor.position = ccp(0.9, 1.1)
+                default:
+                    return
+                }
+            } else if trigger == 2 {
+                randomPosition = CCRANDOM_0_1() * 3
+                switch randomPosition {
+                case 0..<1:
+                    armor.position = ccp(0.3, 1.1)
+                case 1..<2:
+                    armor.position = ccp(0.5, 1.1)
+                case 2...3:
+                    armor.position = ccp(0.7, 1.1)
+                default:
+                    return
+                }
+            } else {
+                switch randomPosition {
+                case 0..<1:
+                    armor.position = ccp(0.1, 1.1)
+                case 1..<2:
+                    armor.position = ccp(0.3, 1.1)
+                case 2..<3:
+                    armor.position = ccp(0.5, 1.1)
+                case 3..<4:
+                    armor.position = ccp(0.7, 1.1)
+                case 4...5:
+                    armor.position = ccp(0.9, 1.1)
+                default:
+                    return
+                }
             }
         default:
-            var golden = CCBReader.load("StarPowerUp") as! StarPowerUp
-            golden.scale = 1.5
-            golden.positionType = CCPositionType(xUnit: .Normalized, yUnit: .Normalized, corner: .BottomLeft)
-            gamePhysicsNode.addChild(golden)
-            switch randomPosition {
-            case 0..<1:
-                golden.position = ccp(0.3, 1.1)
-            case 1..<2:
-                golden.position = ccp(0.5, 1.1)
-            default:
-                golden.position = ccp(0.7, 1.1)
+            var star = CCBReader.load("StarPowerUp") as! StarPowerUp
+            star.scale = 1.5
+            star.positionType = CCPositionType(xUnit: .Normalized, yUnit: .Normalized, corner: .BottomLeft)
+            gamePhysicsNode.addChild(star)
+            if trigger == 1 {
+                randomPosition = CCRANDOM_0_1() * 4
+                switch randomPosition {
+                case 0..<1:
+                    star.position = ccp(0.3, 1.1)
+                case 1..<2:
+                    star.position = ccp(0.5, 1.1)
+                case 2..<3:
+                    star.position = ccp(0.7, 1.1)
+                case 3...4:
+                    star.position = ccp(0.9, 1.1)
+                default:
+                    return
+                }
+            } else if trigger == 2 {
+                randomPosition = CCRANDOM_0_1() * 3
+                switch randomPosition {
+                case 0..<1:
+                    star.position = ccp(0.3, 1.1)
+                case 1..<2:
+                    star.position = ccp(0.5, 1.1)
+                case 2...3:
+                    star.position = ccp(0.7, 1.1)
+                default:
+                    return
+                }
+            } else {
+                switch randomPosition {
+                case 0..<1:
+                    star.position = ccp(0.1, 1.1)
+                case 1..<2:
+                    star.position = ccp(0.3, 1.1)
+                case 2..<3:
+                    star.position = ccp(0.5, 1.1)
+                case 3..<4:
+                    star.position = ccp(0.7, 1.1)
+                case 4...5:
+                    star.position = ccp(0.9, 1.1)
+                default:
+                    return
+                }
             }
         }
     }
@@ -592,51 +801,61 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         }
         
         if gameState == .Golden {
-            modifier = modifier / 3
-            scrollSpeed = scrollSpeed / 3
-            OALSimpleAudio.sharedInstance().stopBg()
+            modifier = modifier / starBoost
+            scrollSpeed = scrollSpeed / CGFloat(starBoost)
         }
         gameState = .Playing
         player.defaultClimber()
     }
     
-    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, coin: Coin!, armor: ArmorPowerUp!) -> Bool {
+    func reportHighScoreToGameCenter() {
+        var scoreReporter = GKScore(leaderboardIdentifier: "RockClimberSinglePlayerLeaderboard")
+        scoreReporter.value = Int64(defaults.integerForKey("highScore"))
+        var scoreArray: [GKScore] = [scoreReporter]
+        GKScore.reportScores(scoreArray, withCompletionHandler: {(error : NSError!) -> Void in
+            if error != nil {
+                println("Game Center: Score Submission Error")
+            }
+        })
+    }
+    
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, coin: Coin!, armor: ArmorPowerUp!) -> ObjCBool {
         return false
     }
     
-    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, coin: Coin!, magnet: MagnetPowerUp!) -> Bool {
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, coin: Coin!, magnet: MagnetPowerUp!) -> ObjCBool {
         return false
     }
     
-    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, coin: Coin!, star: StarPowerUp!) -> Bool {
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, coin: Coin!, star: StarPowerUp!) -> ObjCBool {
         return false
     }
     
-    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, coin one: CCNode!, coin two: CCNode!) -> Bool {
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, coin one: CCNode!, coin two: CCNode!) -> ObjCBool {
         return false
     }
     
-    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, obstacle: CCNode!, armor: ArmorPowerUp!) -> Bool {
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, obstacle: CCNode!, armor: ArmorPowerUp!) -> ObjCBool {
         return false
     }
     
-    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, obstacle: CCNode!, coin: Coin!) -> Bool {
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, obstacle: CCNode!, coin: Coin!) -> ObjCBool {
         return false
     }
     
-    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, obstacle: CCNode!, magnet: MagnetPowerUp!) -> Bool {
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, obstacle: CCNode!, magnet: MagnetPowerUp!) -> ObjCBool {
         return false
     }
     
-    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, obstacle: CCNode!, star: StarPowerUp!) -> Bool {
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, obstacle: CCNode!, star: StarPowerUp!) -> ObjCBool {
         return false
     }
     
-    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, obstacle one: CCNode!, obstacle two: CCNode!) -> Bool {
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, obstacle one: CCNode!, obstacle two: CCNode!) -> ObjCBool {
         return false
     }
     
-    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, playerC: Player!, armor: ArmorPowerUp!) -> Bool {
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, playerC: Player!, armor: ArmorPowerUp!) -> ObjCBool {
         if gameState == .Playing || gameState == .Magnet || gameState == .Armor {
             gameState = .Armor
             armor.removeFromParent()
@@ -651,13 +870,17 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         }
     }
     
-    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, playerC: Player!, obstacle: CCSprite!) -> Bool {
-        if gameState == .Magnet || gameState == .Golden {
-            player.physicsBody.type = .Dynamic
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, playerC: Player!, obstacle: CCSprite!) -> ObjCBool {
+        if gameState == .Magnet {
             obstacle.removeFromParent()
             mainScene.stopAllActions()
             disableGestures()
             triggerGameOver()
+            return true
+        } else if gameState == .Armor && obstacleCoin == true {
+            obstacle.removeFromParent()
+            score += 3
+            coinCount++
             return true
         } else if gameState != .Playing {
             return false
@@ -671,7 +894,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         }
     }
     
-    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, rope: CCNode!, wildcard: CCNode!) -> Bool {
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, rope: CCNode!, wildcard: CCNode!) -> ObjCBool {
         return false
     }
     
@@ -687,25 +910,29 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         }
     }
     
-    func ccPhysicsCollisionPostSolve(pair: CCPhysicsCollisionPair!, playerC: Player!, star: StarPowerUp!) {
-        if gameState == .Playing || gameState == .Magnet || gameState == .Armor || gameState == .Golden {
-            gameState = .Golden
-            star.removeFromParent()
-            score += 20
-            modifier = modifier * 2
-            scrollSpeed = scrollSpeed * 2
-            player.goldenPowerUp()
-            OALSimpleAudio.sharedInstance().playBg("Music/Star Theme.wav", loop:true)
-            self.scheduleOnce("postGoldenPowerUp", delay: starDuration - 3)
-        }
-    }
-    
     func ccPhysicsCollisionPostSolve(pair: CCPhysicsCollisionPair!, playerC: Player!, magnet: MagnetPowerUp!) {
         if gameState == .Playing || gameState == .Magnet || gameState == .Armor || gameState == .Golden {
             gameState = .Magnet
             magnet.removeFromParent()
             player.magnetPowerUp()
             self.scheduleOnce("postMagnetPowerUp", delay: magnetDuration - 3)
+        }
+    }
+    
+    func ccPhysicsCollisionPostSolve(pair: CCPhysicsCollisionPair!, playerC: Player!, star: StarPowerUp!) {
+        if gameState == .Playing || gameState == .Magnet || gameState == .Armor || gameState == .Golden {
+            gameState = .Golden
+            star.removeFromParent()
+            score += 20
+            modifier = modifier * starBoost
+            scrollSpeed = scrollSpeed * CGFloat(starBoost)
+            player.goldenPowerUp()
+            if starCoins == true {
+                self.scheduleOnce("spawnCoins", delay: 5)
+                self.scheduleOnce("spawnCoins", delay: 10)
+                self.scheduleOnce("spawnCoins", delay: 15)
+            }
+            self.scheduleOnce("postGoldenPowerUp", delay: starDuration - 3)
         }
     }
     
@@ -751,10 +978,27 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         var highScore = defaults.integerForKey("highScore")
         if Int(self.score) > highScore {
             defaults.setInteger(Int(self.score), forKey: "highScore")
+            reportHighScoreToGameCenter()
         }
         
         var totalCoins = defaults.integerForKey("totalCoins")
         totalCoins += coinCount
         defaults.setInteger(totalCoins, forKey: "totalCoins")
+    }
+}
+
+extension MainScene: GKGameCenterControllerDelegate {
+    func showLeaderboard() {
+        if gameState == .Title {
+            var viewController = CCDirector.sharedDirector().parentViewController!
+            var gameCenterViewController = GKGameCenterViewController()
+            gameCenterViewController.gameCenterDelegate = self
+            viewController.presentViewController(gameCenterViewController, animated: true, completion: nil)
+        }
+    }
+
+    // Delegate methods
+    func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController!) {
+        gameCenterViewController.dismissViewControllerAnimated(true, completion: nil)
     }
 }

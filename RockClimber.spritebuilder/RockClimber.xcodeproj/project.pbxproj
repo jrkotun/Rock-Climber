@@ -52,8 +52,9 @@
 		8933B62D1B60CDDA007D5F13 /* StarPowerUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8933B62C1B60CDDA007D5F13 /* StarPowerUp.swift */; };
 		8933B62F1B61713B007D5F13 /* MagnetPowerUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8933B62E1B61713B007D5F13 /* MagnetPowerUp.swift */; };
 		89533E3D1B6986C4003C2595 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89533E3C1B6986C4003C2595 /* Images.xcassets */; };
-		897E41F71B6ECBA0008E7100 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 897E41F61B6ECBA0008E7100 /* Fonts */; };
 		897E41FD1B700AE1008E7100 /* UpdateMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 897E41FC1B700AE1008E7100 /* UpdateMenu.swift */; };
+		898F7FE61B78713100485530 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 898F7FE51B78713100485530 /* iAd.framework */; };
+		89CA2BC41B70C8FB007E73BA /* GameCenterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CA2BC31B70C8FB007E73BA /* GameCenterInteractor.swift */; };
 		89F796811B5866B0000B7917 /* Bird.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F796801B5866B0000B7917 /* Bird.swift */; };
 		89FB5C1E1B548167001AB056 /* GameOver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89FB5C1D1B548167001AB056 /* GameOver.swift */; };
 		927F61A5196C771E000F43EF /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B77F1B3517B978D7009739AE /* OpenAL.framework */; };
@@ -192,8 +193,9 @@
 		8933B62C1B60CDDA007D5F13 /* StarPowerUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarPowerUp.swift; sourceTree = "<group>"; };
 		8933B62E1B61713B007D5F13 /* MagnetPowerUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagnetPowerUp.swift; sourceTree = "<group>"; };
 		89533E3C1B6986C4003C2595 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		897E41F61B6ECBA0008E7100 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
 		897E41FC1B700AE1008E7100 /* UpdateMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateMenu.swift; sourceTree = "<group>"; };
+		898F7FE51B78713100485530 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		89CA2BC31B70C8FB007E73BA /* GameCenterInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameCenterInteractor.swift; sourceTree = "<group>"; };
 		89F796801B5866B0000B7917 /* Bird.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bird.swift; sourceTree = "<group>"; };
 		89FB5C1D1B548167001AB056 /* GameOver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOver.swift; sourceTree = "<group>"; };
 		927F61BF196C771E000F43EF /* RockClimber Android.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RockClimber Android.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -278,6 +280,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				898F7FE61B78713100485530 /* iAd.framework in Frameworks */,
 				7A97911819E631CD001FFC4D /* libcocos2d.a in Frameworks */,
 				8392007A18EE8E3300B6C429 /* GLKit.framework in Frameworks */,
 				B77F1B3217B978D7009739AE /* QuartzCore.framework in Frameworks */,
@@ -458,20 +461,21 @@
 		B737893C1807616C0076A88C /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				7A40362019DDEF0D007B6E8F /* Platforms */,
-				89533E3C1B6986C4003C2595 /* Images.xcassets */,
-				7A046D7519E84C36004C4763 /* MainScene.swift */,
-				8933B62E1B61713B007D5F13 /* MagnetPowerUp.swift */,
-				8933B62C1B60CDDA007D5F13 /* StarPowerUp.swift */,
-				897E41FC1B700AE1008E7100 /* UpdateMenu.swift */,
-				8933B6241B605435007D5F13 /* ArmorPowerUp.swift */,
-				8933B6221B6030D8007D5F13 /* Player.swift */,
-				8933B61A1B602569007D5F13 /* Store.swift */,
-				8933B6181B5EE52C007D5F13 /* Coin.swift */,
-				89F796801B5866B0000B7917 /* Bird.swift */,
-				89FB5C1D1B548167001AB056 /* GameOver.swift */,
-				8921491C1B54390300A8EACE /* Rock.swift */,
 				D352B48019EC608A00829775 /* MetalShaders */,
+				8933B6241B605435007D5F13 /* ArmorPowerUp.swift */,
+				89F796801B5866B0000B7917 /* Bird.swift */,
+				8933B6181B5EE52C007D5F13 /* Coin.swift */,
+				89CA2BC31B70C8FB007E73BA /* GameCenterInteractor.swift */,
+				89FB5C1D1B548167001AB056 /* GameOver.swift */,
+				8933B62E1B61713B007D5F13 /* MagnetPowerUp.swift */,
+				7A046D7519E84C36004C4763 /* MainScene.swift */,
+				8933B6221B6030D8007D5F13 /* Player.swift */,
+				8921491C1B54390300A8EACE /* Rock.swift */,
+				8933B62C1B60CDDA007D5F13 /* StarPowerUp.swift */,
+				8933B61A1B602569007D5F13 /* Store.swift */,
+				897E41FC1B700AE1008E7100 /* UpdateMenu.swift */,
+				89533E3C1B6986C4003C2595 /* Images.xcassets */,
+				7A40362019DDEF0D007B6E8F /* Platforms */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -522,6 +526,7 @@
 		B77F1B3017B978D7009739AE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				898F7FE51B78713100485530 /* iAd.framework */,
 				BC5399D31A44DCC90063F482 /* AndroidKit.framework */,
 				BC5399D41A44DCC90063F482 /* CoreJava.framework */,
 				BC5399D51A44DCC90063F482 /* GLActivityKit.framework */,
@@ -550,7 +555,6 @@
 		B77F1B4617B978D7009739AE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				897E41F61B6ECBA0008E7100 /* Fonts */,
 				7A40366119DDF8C2007B6E8F /* Platforms */,
 				5B12100D197483EE004C1E1D /* res */,
 				B73789911807667A0076A88C /* Icons */,
@@ -638,7 +642,7 @@
 		B77F1B2617B978D7009739AE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = Apportable;
 				TargetAttributes = {
 					7A4035FE19DDEE84007B6E8F = {
@@ -774,7 +778,6 @@
 				B71F5915188484E7003F4D28 /* iPhone-old.png in Resources */,
 				B71F5917188484E7003F4D28 /* iPhone.png in Resources */,
 				B7378975180762440076A88C /* Default-568h@2x.png in Resources */,
-				897E41F71B6ECBA0008E7100 /* Fonts in Resources */,
 				B71F5918188484E7003F4D28 /* iPhone@2x.png in Resources */,
 				B7378977180762440076A88C /* Default.png in Resources */,
 				B71F5911188484E7003F4D28 /* iPad-old.png in Resources */,
@@ -862,6 +865,7 @@
 				7A046D7919E84ED5004C4763 /* MainScene.swift in Sources */,
 				89FB5C1E1B548167001AB056 /* GameOver.swift in Sources */,
 				5B121038197487F2004C1E1D /* AppDelegate.m in Sources */,
+				89CA2BC41B70C8FB007E73BA /* GameCenterInteractor.swift in Sources */,
 				8933B6231B6030D8007D5F13 /* Player.swift in Sources */,
 				8933B6191B5EE52C007D5F13 /* Coin.swift in Sources */,
 			);
@@ -1080,6 +1084,7 @@
 		B77F1CDC17B978D8009739AE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -1090,6 +1095,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					DEBUG,
@@ -1107,12 +1113,14 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Debug;
 		};
 		B77F1CDD17B978D8009739AE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -1123,6 +1131,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					NDEBUG,
 					"NS_BLOCK_ASSERTIONS=1",
@@ -1137,6 +1146,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Release;
 		};
@@ -1170,9 +1180,10 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = RockClimber;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "4e723fcb-f97b-47dd-a70d-ec709d881888";
 				SWIFT_OBJC_BRIDGING_HEADER = "Source/Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1205,8 +1216,9 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = RockClimber;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "4e723fcb-f97b-47dd-a70d-ec709d881888";
 				SWIFT_OBJC_BRIDGING_HEADER = "Source/Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

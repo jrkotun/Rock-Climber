@@ -108,6 +108,16 @@
 			<key>scaleFrom</key>
 			<integer>4</integer>
 		</dict>
+		<key>Rock Climber Assets/Home Button 2.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
+		<key>Rock Climber Assets/Home Button.png</key>
+		<dict>
+			<key>scaleFrom</key>
+			<integer>4</integer>
+		</dict>
 		<key>Rock Climber Assets/Magnet Upgrade.png</key>
 		<dict>
 			<key>scaleFrom</key>
@@ -124,11 +134,6 @@
 			<integer>4</integer>
 		</dict>
 		<key>Rock Climber Assets/Pause Button.png</key>
-		<dict>
-			<key>scaleFrom</key>
-			<integer>4</integer>
-		</dict>
-		<key>Rock Climber Assets/Rock Wall.png</key>
 		<dict>
 			<key>scaleFrom</key>
 			<integer>4</integer>

@@ -10,7 +10,7 @@
 		<false/>
 	</dict>
 	<key>UUID</key>
-	<integer>60</integer>
+	<integer>61</integer>
 	<key>centeredOrigin</key>
 	<false/>
 	<key>currentResolution</key>
@@ -452,7 +452,7 @@
 								<key>type</key>
 								<string>FontTTF</string>
 								<key>value</key>
-								<string>Helvetica</string>
+								<string>Rock Climber Assets/StoneHinge.ttf</string>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -659,7 +659,7 @@
 								<key>type</key>
 								<string>FontTTF</string>
 								<key>value</key>
-								<string>Helvetica</string>
+								<string>Rock Climber Assets/StoneHinge.ttf</string>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -974,7 +974,7 @@
 								<key>type</key>
 								<string>FontTTF</string>
 								<key>value</key>
-								<string>Helvetica</string>
+								<string>Rock Climber Assets/StoneHinge.ttf</string>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -1181,7 +1181,7 @@
 								<key>type</key>
 								<string>FontTTF</string>
 								<key>value</key>
-								<string>Helvetica</string>
+								<string>Rock Climber Assets/StoneHinge.ttf</string>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -1388,7 +1388,7 @@
 								<key>type</key>
 								<string>FontTTF</string>
 								<key>value</key>
-								<string>Helvetica</string>
+								<string>Rock Climber Assets/StoneHinge.ttf</string>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -1595,7 +1595,7 @@
 								<key>type</key>
 								<string>FontTTF</string>
 								<key>value</key>
-								<string>Helvetica</string>
+								<string>Rock Climber Assets/StoneHinge.ttf</string>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -1802,7 +1802,7 @@
 								<key>type</key>
 								<string>FontTTF</string>
 								<key>value</key>
-								<string>Helvetica</string>
+								<string>Rock Climber Assets/StoneHinge.ttf</string>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -2414,7 +2414,7 @@
 								<key>type</key>
 								<string>FontTTF</string>
 								<key>value</key>
-								<string>Helvetica</string>
+								<string>Rock Climber Assets/StoneHinge.ttf</string>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -2621,7 +2621,7 @@
 								<key>type</key>
 								<string>FontTTF</string>
 								<key>value</key>
-								<string>Helvetica</string>
+								<string>Rock Climber Assets/StoneHinge.ttf</string>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -2936,7 +2936,7 @@
 								<key>type</key>
 								<string>FontTTF</string>
 								<key>value</key>
-								<string>Helvetica</string>
+								<string>Rock Climber Assets/StoneHinge.ttf</string>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -3143,7 +3143,7 @@
 								<key>type</key>
 								<string>FontTTF</string>
 								<key>value</key>
-								<string>Helvetica</string>
+								<string>Rock Climber Assets/StoneHinge.ttf</string>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -3350,7 +3350,7 @@
 								<key>type</key>
 								<string>FontTTF</string>
 								<key>value</key>
-								<string>Helvetica</string>
+								<string>Rock Climber Assets/StoneHinge.ttf</string>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -3369,7 +3369,7 @@
 								<key>type</key>
 								<string>Check</string>
 								<key>value</key>
-								<false/>
+								<true/>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -3476,6 +3476,8 @@
 								</array>
 							</dict>
 						</array>
+						<key>selected</key>
+						<true/>
 					</dict>
 					<dict>
 						<key>UUID</key>
@@ -3557,7 +3559,7 @@
 								<key>type</key>
 								<string>FontTTF</string>
 								<key>value</key>
-								<string>Helvetica</string>
+								<string>Rock Climber Assets/StoneHinge.ttf</string>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -3754,7 +3756,7 @@
 								<string>Text</string>
 								<key>value</key>
 								<array>
-									<string>5. Obstacles turn into coins</string>
+									<string>5. Obstacles are collected as coins</string>
 									<false/>
 								</array>
 							</dict>
@@ -3764,7 +3766,7 @@
 								<key>type</key>
 								<string>FontTTF</string>
 								<key>value</key>
-								<string>Helvetica</string>
+								<string>Rock Climber Assets/StoneHinge.ttf</string>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -4376,7 +4378,7 @@
 								<key>type</key>
 								<string>FontTTF</string>
 								<key>value</key>
-								<string>Helvetica</string>
+								<string>Rock Climber Assets/StoneHinge.ttf</string>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -4502,8 +4504,6 @@
 								</array>
 							</dict>
 						</array>
-						<key>selected</key>
-						<true/>
 					</dict>
 					<dict>
 						<key>UUID</key>
@@ -4585,7 +4585,7 @@
 								<key>type</key>
 								<string>FontTTF</string>
 								<key>value</key>
-								<string>Helvetica</string>
+								<string>Rock Climber Assets/StoneHinge.ttf</string>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -4900,7 +4900,7 @@
 								<key>type</key>
 								<string>FontTTF</string>
 								<key>value</key>
-								<string>Helvetica</string>
+								<string>Rock Climber Assets/StoneHinge.ttf</string>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -5107,7 +5107,7 @@
 								<key>type</key>
 								<string>FontTTF</string>
 								<key>value</key>
-								<string>Helvetica</string>
+								<string>Rock Climber Assets/StoneHinge.ttf</string>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -5314,7 +5314,7 @@
 								<key>type</key>
 								<string>FontTTF</string>
 								<key>value</key>
-								<string>Helvetica</string>
+								<string>Rock Climber Assets/StoneHinge.ttf</string>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -5521,7 +5521,7 @@
 								<key>type</key>
 								<string>FontTTF</string>
 								<key>value</key>
-								<string>Helvetica</string>
+								<string>Rock Climber Assets/StoneHinge.ttf</string>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -5718,7 +5718,7 @@
 								<string>Text</string>
 								<key>value</key>
 								<array>
-									<string>5. Star booster gains invincibility</string>
+									<string>5. Generates three walls of coins</string>
 									<false/>
 								</array>
 							</dict>
@@ -5728,7 +5728,7 @@
 								<key>type</key>
 								<string>FontTTF</string>
 								<key>value</key>
-								<string>Helvetica</string>
+								<string>Rock Climber Assets/StoneHinge.ttf</string>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -6051,7 +6051,7 @@
 			<key>name</key>
 			<string>Default Timeline</string>
 			<key>offset</key>
-			<real>0.0</real>
+			<real>0.012500762939453125</real>
 			<key>position</key>
 			<real>0.0</real>
 			<key>resolution</key>

@@ -4,29 +4,29 @@ class GameOver: CCNode {
     weak var score: CCLabelTTF!
     weak var highScoreNumber: CCLabelTTF!
     weak var coinsCollected: CCLabelTTF!
+    let defaults = NSUserDefaults.standardUserDefaults()
     
     func didLoadFromCCB() {
         updateHighScore()
-        OALSimpleAudio.sharedInstance().playBg("Music/GameOver.wav", loop:false)
-    }
-    
-    override func update(delta: CCTime) {
-        let defaults = NSUserDefaults.standardUserDefaults()
-        var currentHighScore = defaults.integerForKey("highScore")
-        highScoreNumber.string = "\(currentHighScore)"
+        OALSimpleAudio.sharedInstance().playEffect("Music and Sounds/GameOver.wav", loop:false)
     }
  
+    override func update(delta: CCTime) {
+        var currentBestScore = defaults.integerForKey("highScore")
+        highScoreNumber.string = "\(currentBestScore)"
+    }
+    
     func setLastScore(lastScore: Int) {
         score.string = "\(lastScore)"
     }
     
-    func setCoinCollected(coins: Int) {
-        coinsCollected.string = "\(coins)"
+    func updateHighScore() {
+        let newHighScore = defaults.integerForKey("highScore")
+        highScoreNumber.string = "\(newHighScore)"
     }
     
-    func updateHighScore() {
-        var newHighScore = NSUserDefaults.standardUserDefaults().integerForKey("highScore")
-        highScoreNumber.string = "\(newHighScore)"
+    func setCoinCollected(coins: Int) {
+        coinsCollected.string = "\(coins)"
     }
 
     func restart() {
