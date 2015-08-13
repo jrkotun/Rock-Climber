@@ -2,7 +2,7 @@ import Foundation
 import GameKit
 
 enum GameState {
-    case Title, Store, Ready, Playing, Paused, Magnet, Armor, Golden, GameOver
+    case Title, Ready, Playing, Paused, Magnet, Armor, Golden, Revive, GameOver
 }
 
 enum Level {
@@ -31,6 +31,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     weak var scoreLabel: CCLabelTTF!
     weak var coinCountNode: CCNode!
     weak var coinLabel: CCLabelTTF!
+    weak var reviveIcon: CCSprite!
     weak var movementRange: CCNodeGradient!
     weak var soundOnOffButton: CCButton!
     weak var soundDescription: CCLabelTTF!
@@ -77,13 +78,13 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     var armorDuration: Double = 0.0 {
         didSet {
             if defaults.doubleForKey("armorDuration") > oldValue {
-                magnetDuration = defaults.doubleForKey("armorDuration")
+                armorDuration = defaults.doubleForKey("armorDuration")
             }
         }
     }
     var armorPenalty: Double = 0.0 {
         didSet {
-            if defaults.doubleForKey("armorPenalty") < oldValue {
+            if defaults.doubleForKey("armorPenalty") > oldValue {
                 armorPenalty = defaults.doubleForKey("armorPenalty")
             }
         }
@@ -98,7 +99,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     var starDuration: Double = 0.0 {
         didSet {
             if defaults.doubleForKey("starDuration") > oldValue {
-                magnetDuration = defaults.doubleForKey("starDuration")
+                starDuration = defaults.doubleForKey("starDuration")
             }
         }
     }
@@ -132,6 +133,11 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         starBoost = 2.0
         starCoins = false
         OALSimpleAudio.sharedInstance().preloadEffect("Music and Sounds/GameOver.wav")
+        
+        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+            background2.position.y = 0.69
+            background3.position.y = 1.38
+        }
     }
     
     func setUpGameCenter() {
@@ -195,7 +201,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             obstacleGeneratorLimit = 10
             gamePhysicsNode.gravity.y = -75.00
             level = .Level2
-            modifier++
+            modifier = 2.0
         } else if score > 7500 && gameState == .Playing && level == .Level2 {
             self.reschedule("fallingRocks", interval: 2)
             self.reschedule("flyingBirds", interval: 3)
@@ -205,7 +211,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             obstacleGeneratorLimit = 12
             gamePhysicsNode.gravity.y = -100.00
             level = .Level3
-            modifier++
+            modifier = 3.0
         } else if score > 15000 && gameState == .Playing && level == .Level3 {
             self.reschedule("flyingBirds", interval: 2)
             rockImpulse = [-500, -475, -450]
@@ -214,21 +220,21 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             obstacleGeneratorLimit = 15
             gamePhysicsNode.gravity.y = -150.00
             level = .Level4
-            modifier++
+            modifier = 4.0
         } else if score > 30000 && gameState == .Playing && level == .Level4 && player.position.x > 0.2 {
             leftRope1.physicsBody.affectedByGravity = true
             leftRope2.physicsBody.affectedByGravity = true
             leftMovementLimit = 0.4
             level = .Level5
             trigger = 1
-            modifier++
+            modifier = 5.0
         } else if score > 50000 && gameState == .Playing && level == .Level5 && player.position.x < 0.8 {
             rightRope1.physicsBody.affectedByGravity = true
             rightRope2.physicsBody.affectedByGravity = true
             rightMovementLimit = 0.6
             level = .LastLevel
             trigger = 2
-            modifier++
+            modifier = 6.0
         } else {
             return
         }
@@ -255,17 +261,32 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         rightRope1.position.y -= scrollSpeed
         rightRope2.position.y -= scrollSpeed
         
-        if background1.position.y <= -0.244 && scroller == 2 {
-            background3.position.y = 1.0
-            scroller = 0
-        }
-        if background2.position.y <= -0.244 && scroller == 0 {
-            background1.position.y = 1.0
-            scroller = 1
-        }
-        if background3.position.y <= -0.244 && scroller == 1 {
-            background2.position.y = 1.0
-            scroller = 2
+        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
+            if background1.position.y <= -0.244 && scroller == 2 {
+                background3.position.y = 1.0
+                scroller = 0
+            }
+            if background2.position.y <= -0.244 && scroller == 0 {
+                background1.position.y = 1.0
+                scroller = 1
+            }
+            if background3.position.y <= -0.244 && scroller == 1 {
+                background2.position.y = 1.0
+                scroller = 2
+            }
+        } else if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+            if background1.position.y <= -0.45 && scroller == 2 {
+                background3.position.y = 1.14
+                scroller = 0
+            }
+            if background2.position.y <= -0.45 && scroller == 0 {
+                background1.position.y = 1.14
+                scroller = 1
+            }
+            if background3.position.y <= -0.45 && scroller == 1 {
+                background2.position.y = 1.14
+                scroller = 2
+            }
         }
         
         if (leftRope1.position.y + 1) < mainScene.position.y && leftRope1.physicsBody.affectedByGravity == false {
@@ -365,14 +386,11 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     }
     
     func store() {
-        if gameState == .Title {
-            gameState = .Store
-            var store = CCBReader.load("Store") as! Store
-            var scene = CCScene()
-            scene.addChild(store)
-            var transition = CCTransition(fadeWithDuration: 0.3)
-            CCDirector.sharedDirector().presentScene(scene, withTransition: transition)
-        }
+        var store = CCBReader.load("Store") as! Store
+        var scene = CCScene()
+        scene.addChild(store)
+        var transition = CCTransition(fadeWithDuration: 0.3)
+        CCDirector.sharedDirector().presentScene(scene, withTransition: transition)
     }
     
     func share() {
@@ -393,6 +411,14 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             
             UIApplication.sharedApplication().keyWindow?.rootViewController?.presentViewController(controller, animated: true, completion: nil)
         }
+    }
+    
+    func info() {
+        var infoScreen = CCBReader.load("InfoScreen") as! InfoScreen
+        var scene = CCScene()
+        scene.addChild(infoScreen)
+        var transition = CCTransition(fadeWithDuration: 0.3)
+        CCDirector.sharedDirector().presentScene(scene, withTransition: transition)
     }
     
     func screenShotWithStartNode(node: CCNode) -> UIImage {
@@ -422,10 +448,22 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         coinCountNode.visible = true
         pauseButton.visible = true
         startObstacles()
+        
+        if defaults.integerForKey("bonusBoost") == 1 {
+            defaults.setInteger(0, forKey: "bonusBoost")
+            score = 5000
+        } else if defaults.integerForKey("bonusBoost") == 2 {
+            defaults.setInteger(0, forKey: "bonusBoost")
+            score = 10000
+        }
+        
+        if defaults.boolForKey("bonusRevive") == true {
+            reviveIcon.visible = true
+        }
     }
     
     func pause() {
-        if gameState == .Playing || gameState == .Magnet || gameState == .Armor || gameState == .Golden {
+        if gameState == .Playing || gameState == .Magnet || gameState == .Armor || gameState == .Golden || gameState == .Revive {
             tempGameState = gameState
             gameState = .Paused
             pauseScreen.visible = true
@@ -456,14 +494,12 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     }
     
     func titleMenu() {
-        if gameState == .Paused || gameState == .GameOver || gameState == .Store {
-            gameState = .Title
-            var titleScreen = CCBReader.load("MainScene") as! MainScene
-            var scene = CCScene()
-            scene.addChild(titleScreen)
-            var transition = CCTransition(fadeWithDuration: 0.3)
-            CCDirector.sharedDirector().presentScene(scene, withTransition: transition)
-        }
+        gameState = .Title
+        var titleScreen = CCBReader.load("MainScene") as! MainScene
+        var scene = CCScene()
+        scene.addChild(titleScreen)
+        var transition = CCTransition(fadeWithDuration: 0.3)
+        CCDirector.sharedDirector().presentScene(scene, withTransition: transition)
     }
     
     func startObstacles() {
@@ -635,7 +671,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         var randomPowerup = CCRANDOM_0_1() * 10
         var randomPosition = CCRANDOM_0_1() * 5
         switch randomPowerup {
-        case 0..<4.5:
+        case 0..<0.5:
             var magnet = CCBReader.load("MagnetPowerUp") as! MagnetPowerUp
             magnet.scale = 0.4
             magnet.positionType = CCPositionType(xUnit: .Normalized, yUnit: .Normalized, corner: .BottomLeft)
@@ -682,7 +718,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
                     return
                 }
             }
-        case 4.5..<9:
+        case 0.5..<1:
             var armor = CCBReader.load("ArmorPowerUp") as! ArmorPowerUp
             armor.scale = 1.5
             armor.positionType = CCPositionType(xUnit: .Normalized, yUnit: .Normalized, corner: .BottomLeft)
@@ -808,6 +844,16 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         player.defaultClimber()
     }
     
+    func reviveRunningOut() {
+        player.reviveRunningOut()
+        self.scheduleOnce("postRevive", delay: 3)
+    }
+    
+    func postRevive() {
+        gameState = .Playing
+        player.defaultClimber()
+    }
+    
     func reportHighScoreToGameCenter() {
         var scoreReporter = GKScore(leaderboardIdentifier: "RockClimberSinglePlayerLeaderboard")
         scoreReporter.value = Int64(defaults.integerForKey("highScore"))
@@ -856,7 +902,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
     }
     
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, playerC: Player!, armor: ArmorPowerUp!) -> ObjCBool {
-        if gameState == .Playing || gameState == .Magnet || gameState == .Armor {
+        if gameState == .Playing {
             gameState = .Armor
             armor.removeFromParent()
             score += 20
@@ -870,15 +916,41 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         }
     }
     
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, playerC: Player!, magnet: MagnetPowerUp!) -> ObjCBool {
+        if gameState == .Revive {
+            return false
+        }
+        
+        gameState = .Magnet
+        magnet.removeFromParent()
+        player.magnetPowerUp()
+        self.scheduleOnce("postMagnetPowerUp", delay: magnetDuration - 3)
+        return true
+    }
+    
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, playerC: Player!, obstacle: CCSprite!) -> ObjCBool {
-        if gameState == .Magnet {
+        if defaults.boolForKey("bonusRevive") == true && gameState != .Armor && gameState != .Golden {
+            gameState = .Revive
+            defaults.setBool(false, forKey: "bonusRevive")
+            reviveIcon.visible = false
+            obstacle.removeFromParent()
+            player.revive()
+            self.scheduleOnce("reviveRunningOut", delay: 4)
+            return true
+        } else if gameState == .Magnet {
             obstacle.removeFromParent()
             mainScene.stopAllActions()
             disableGestures()
             triggerGameOver()
             return true
         } else if gameState == .Armor && obstacleCoin == true {
-            obstacle.removeFromParent()
+            if obstacle is Rock {
+                var rockCoin = obstacle as! Rock
+                rockCoin.rockRemoved(rockCoin)
+            } else if obstacle is Bird {
+                var birdCoin = obstacle as! Bird
+                birdCoin.birdRemoved(birdCoin)
+            }
             score += 3
             coinCount++
             return true
@@ -894,45 +966,37 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         }
     }
     
+    func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, playerC: Player!, star: StarPowerUp!) -> ObjCBool {
+        if gameState == .Revive {
+            return false
+        }
+        
+        gameState = .Golden
+        star.removeFromParent()
+        score += 20
+        modifier = modifier * starBoost
+        scrollSpeed = scrollSpeed * CGFloat(starBoost)
+        player.goldenPowerUp()
+        if starCoins == true {
+            self.schedule("spawnCoins", interval: 5, repeat: 2, delay: 0)
+        }
+        self.scheduleOnce("postGoldenPowerUp", delay: starDuration - 3)
+        return true
+    }
+    
     func ccPhysicsCollisionBegin(pair: CCPhysicsCollisionPair!, rope: CCNode!, wildcard: CCNode!) -> ObjCBool {
         return false
     }
     
     func ccPhysicsCollisionPostSolve(pair: CCPhysicsCollisionPair!, playerC: Player!, coin: Coin!) {
-        if gameState == .Playing || gameState == .Armor || gameState == .Golden {
+        if gameState == .Playing || gameState == .Armor || gameState == .Golden || gameState == .Revive {
             coin.coinRemoved(coin)
             score += 3
             coinCount++
-        } else if gameState == .Magnet{
+        } else if gameState == .Magnet {
             coin.coinRemoved(coin)
             score += 5
             coinCount = coinCount + 1 + magnetCoinModifier
-        }
-    }
-    
-    func ccPhysicsCollisionPostSolve(pair: CCPhysicsCollisionPair!, playerC: Player!, magnet: MagnetPowerUp!) {
-        if gameState == .Playing || gameState == .Magnet || gameState == .Armor || gameState == .Golden {
-            gameState = .Magnet
-            magnet.removeFromParent()
-            player.magnetPowerUp()
-            self.scheduleOnce("postMagnetPowerUp", delay: magnetDuration - 3)
-        }
-    }
-    
-    func ccPhysicsCollisionPostSolve(pair: CCPhysicsCollisionPair!, playerC: Player!, star: StarPowerUp!) {
-        if gameState == .Playing || gameState == .Magnet || gameState == .Armor || gameState == .Golden {
-            gameState = .Golden
-            star.removeFromParent()
-            score += 20
-            modifier = modifier * starBoost
-            scrollSpeed = scrollSpeed * CGFloat(starBoost)
-            player.goldenPowerUp()
-            if starCoins == true {
-                self.scheduleOnce("spawnCoins", delay: 5)
-                self.scheduleOnce("spawnCoins", delay: 10)
-                self.scheduleOnce("spawnCoins", delay: 15)
-            }
-            self.scheduleOnce("postGoldenPowerUp", delay: starDuration - 3)
         }
     }
     

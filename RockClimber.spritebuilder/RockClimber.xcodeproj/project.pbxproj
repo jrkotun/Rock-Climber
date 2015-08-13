@@ -55,6 +55,7 @@
 		897E41FD1B700AE1008E7100 /* UpdateMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 897E41FC1B700AE1008E7100 /* UpdateMenu.swift */; };
 		898F7FE61B78713100485530 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 898F7FE51B78713100485530 /* iAd.framework */; };
 		89CA2BC41B70C8FB007E73BA /* GameCenterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89CA2BC31B70C8FB007E73BA /* GameCenterInteractor.swift */; };
+		89EDE2C91B7AAE1D00A5C6EF /* InfoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EDE2C81B7AAE1D00A5C6EF /* InfoScreen.swift */; };
 		89F796811B5866B0000B7917 /* Bird.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F796801B5866B0000B7917 /* Bird.swift */; };
 		89FB5C1E1B548167001AB056 /* GameOver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89FB5C1D1B548167001AB056 /* GameOver.swift */; };
 		927F61A5196C771E000F43EF /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B77F1B3517B978D7009739AE /* OpenAL.framework */; };
@@ -196,6 +197,7 @@
 		897E41FC1B700AE1008E7100 /* UpdateMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateMenu.swift; sourceTree = "<group>"; };
 		898F7FE51B78713100485530 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		89CA2BC31B70C8FB007E73BA /* GameCenterInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameCenterInteractor.swift; sourceTree = "<group>"; };
+		89EDE2C81B7AAE1D00A5C6EF /* InfoScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoScreen.swift; sourceTree = "<group>"; };
 		89F796801B5866B0000B7917 /* Bird.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bird.swift; sourceTree = "<group>"; };
 		89FB5C1D1B548167001AB056 /* GameOver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOver.swift; sourceTree = "<group>"; };
 		927F61BF196C771E000F43EF /* RockClimber Android.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RockClimber Android.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -467,6 +469,7 @@
 				8933B6181B5EE52C007D5F13 /* Coin.swift */,
 				89CA2BC31B70C8FB007E73BA /* GameCenterInteractor.swift */,
 				89FB5C1D1B548167001AB056 /* GameOver.swift */,
+				89EDE2C81B7AAE1D00A5C6EF /* InfoScreen.swift */,
 				8933B62E1B61713B007D5F13 /* MagnetPowerUp.swift */,
 				7A046D7519E84C36004C4763 /* MainScene.swift */,
 				8933B6221B6030D8007D5F13 /* Player.swift */,
@@ -857,6 +860,7 @@
 				8933B62F1B61713B007D5F13 /* MagnetPowerUp.swift in Sources */,
 				8933B6251B605435007D5F13 /* ArmorPowerUp.swift in Sources */,
 				8933B62D1B60CDDA007D5F13 /* StarPowerUp.swift in Sources */,
+				89EDE2C91B7AAE1D00A5C6EF /* InfoScreen.swift in Sources */,
 				8921491D1B54390300A8EACE /* Rock.swift in Sources */,
 				897E41FD1B700AE1008E7100 /* UpdateMenu.swift in Sources */,
 				89F796811B5866B0000B7917 /* Bird.swift in Sources */,
@@ -1180,7 +1184,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = RockClimber;
-				PROVISIONING_PROFILE = "4e723fcb-f97b-47dd-a70d-ec709d881888";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Source/Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1216,7 +1220,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = RockClimber;
-				PROVISIONING_PROFILE = "4e723fcb-f97b-47dd-a70d-ec709d881888";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Source/Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

@@ -28,4 +28,12 @@ class Player: CCSprite {
     func goldenRunningOut() {
         self.animationManager.runAnimationsForSequenceNamed("Golden Climber Running Out")
     }
+    
+    func revive() {
+        self.animationManager.runAnimationsForSequenceNamed("Revive Animation")
+    }
+    
+    func reviveRunningOut() {
+        self.animationManager.runAnimationsForSequenceNamed("Revive Running Out")
+    }
 }

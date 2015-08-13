@@ -1,6 +1,16 @@
 import Foundation
+import StoreKit
 
-class UpdateMenu: CCLayout {
+enum PurchaseItem {
+    case OneThousand, FiveThousand
+}
+
+protocol IAPHelperDelegate {
+    func purchaseSuccessful(productString: String)
+    func purchaseFailed()
+}
+
+class UpdateMenu: CCLayout, SKProductsRequestDelegate, SKPaymentTransactionObserver {
     weak var magnetPrice: CCLabelTTF!
     weak var magnetTier: CCLabelTTF!
     weak var magnetUpgrade1: CCLabelTTF!
@@ -22,8 +32,22 @@ class UpdateMenu: CCLayout {
     weak var starUpgrade3: CCLabelTTF!
     weak var starUpgrade4: CCLabelTTF!
     weak var starUpgrade5: CCLabelTTF!
+    weak var priceLabel1: CCLabelTTF!
+    weak var priceLabel2: CCLabelTTF!
+    weak var priceLabel3: CCLabelTTF!
+    weak var storeIcon1: CCSprite!
+    weak var storeIcon2: CCSprite!
+    weak var storeIcon3: CCSprite!
+    weak var storeIcon4: CCSprite!
+    weak var storeIcon5: CCSprite!
+    weak var storeIcon6: CCSprite!
+    weak var storeIcon7: CCSprite!
+    weak var storeIcon8: CCSprite!
+    weak var storeIcon9: CCSprite!
     let defaults = NSUserDefaults.standardUserDefaults()
     var totalCoins: Int
+    var purchaseItem: PurchaseItem!
+    var delegate: IAPHelperDelegate?
     var mPrice: Int = 0 {
         didSet {
             if defaults.integerForKey("magnetPrice") > oldValue {
@@ -76,7 +100,7 @@ class UpdateMenu: CCLayout {
     var aDone: Bool = false {
         didSet {
             if defaults.boolForKey("aDone") != oldValue {
-                mDone = defaults.boolForKey("aDone")
+                aDone = defaults.boolForKey("aDone")
             }
         }
     }
@@ -105,6 +129,20 @@ class UpdateMenu: CCLayout {
         didSet {
             if defaults.boolForKey("sDone") != oldValue {
                 sDone = defaults.boolForKey("sDone")
+            }
+        }
+    }
+    var bonusBoost: Int = 0 {
+        didSet {
+            if defaults.integerForKey("bonusBoost") > oldValue {
+                bonusBoost = defaults.integerForKey("bonusBoost")
+            }
+        }
+    }
+    var revival: Bool = false {
+        didSet {
+            if defaults.boolForKey("bonusRevive") != oldValue {
+                revival = defaults.boolForKey("bonusRevive")
             }
         }
     }
@@ -147,6 +185,39 @@ class UpdateMenu: CCLayout {
         } else {
             starPrice.string = "-----"
             starTier.string = "*"
+        }
+        
+        bonusBoost = 0
+        revival = false
+        
+        
+        if bonusBoost == 1 {
+            priceLabel1.string = "Already Purchased"
+            priceLabel2.string = "Booster 1 Purchased"
+            priceLabel1.fontSize = 12
+            priceLabel2.fontSize = 12
+        } else if bonusBoost == 2 {
+            priceLabel1.string = "Booster 2 Purchased"
+            priceLabel2.string = "Already Purchased"
+            priceLabel1.fontSize = 12
+            priceLabel2.fontSize = 12
+        }
+        
+        if revival == true {
+            priceLabel3.string = "Already Purchased"
+            priceLabel3.fontSize = 12
+        }
+        
+        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+            storeIcon1.position.x = 0.335
+            storeIcon2.position.x = 0.335
+            storeIcon3.position.x = 0.335
+            storeIcon4.position.x = 0.335
+            storeIcon5.position.x = 0.335
+            storeIcon6.position.x = 0.335
+            storeIcon7.position.x = 0.32
+            storeIcon8.position.x = 0.35
+            storeIcon9.position.x = 0.335
         }
     }
     
@@ -395,5 +466,135 @@ class UpdateMenu: CCLayout {
             defaults.setBool(true, forKey: "starCoins")
             defaults.setBool(true, forKey: "sDone")
         }
+    }
+    
+    func headStart1() {
+        if totalCoins >= 500 && bonusBoost == 0 {
+            totalCoins = totalCoins - 500
+            defaults.setInteger(1, forKey: "bonusBoost")
+            bonusBoost = 0
+            priceLabel1.string = "Already Purchased"
+            priceLabel2.string = "Booster 1 Purchased"
+            priceLabel1.fontSize = 12
+            priceLabel2.fontSize = 12
+            defaults.setInteger(totalCoins, forKey: "totalCoins")
+        }
+    }
+    
+    func headStart2() {
+        if totalCoins >= 900 && bonusBoost == 0 {
+            totalCoins = totalCoins - 900
+            defaults.setInteger(2, forKey: "bonusBoost")
+            bonusBoost = 0
+            priceLabel1.string = "Booster 2 Purchased"
+            priceLabel2.string = "Already Purchased"
+            priceLabel1.fontSize = 12
+            priceLabel2.fontSize = 12
+            defaults.setInteger(totalCoins, forKey: "totalCoins")
+        }
+    }
+    
+    func revive() {
+        if totalCoins >= 1500 && revival == false {
+            totalCoins = totalCoins - 1500
+            defaults.setBool(true, forKey: "bonusRevive")
+            revival = false
+            priceLabel3.string = "Already Purchased"
+            priceLabel3.fontSize = 12
+            defaults.setInteger(totalCoins, forKey: "totalCoins")
+        }
+    }
+    
+    func attemptPurchase(productName: String) {
+        if (SKPaymentQueue.canMakePayments()) {
+            var productID:NSSet = NSSet(object: productName)
+            var productRequest:SKProductsRequest = SKProductsRequest(productIdentifiers: productID as Set<NSObject>)
+            productRequest.delegate = self
+            productRequest.start()
+        } else {
+            //notify user that purchase isn't possible
+            if let delegate = delegate {
+                delegate.purchaseFailed()
+            }
+        }
+    }
+    
+    //called by you, to start restore purchase process
+    func attemptRestorePurchase() {
+        if (SKPaymentQueue.canMakePayments()) {
+            SKPaymentQueue.defaultQueue().restoreCompletedTransactions()
+        } else {
+            //notify user that restore isn't possible
+            if let delegate = delegate {
+                delegate.purchaseFailed()
+            }
+        }
+    }
+    
+    //called after delegate method productRequest(...)
+    func buyProduct(product: SKProduct) {
+        var payment = SKPayment(product: product)
+        SKPaymentQueue.defaultQueue().addTransactionObserver(self)
+        SKPaymentQueue.defaultQueue().addPayment(payment)
+    }
+    
+    // MARK: - SKProductsRequestDelegate method
+    
+    func productsRequest(request: SKProductsRequest!, didReceiveResponse response: SKProductsResponse!) {
+        var count: Int = response.products.count
+        if (count > 0) {
+            var validProducts = response.products
+            var product = validProducts[0] as! SKProduct
+            buyProduct(product)
+        } else {
+            //something went wrong with lookup, try again?
+        }
+    }
+    
+    // MARK: - SKPaymentTransactionObserver method
+    
+    func paymentQueue(queue: SKPaymentQueue!, updatedTransactions transactions: [AnyObject]!) {
+        println("recieved response")
+        for transaction: AnyObject in transactions {
+            if let tx: SKPaymentTransaction = transaction as? SKPaymentTransaction {
+                switch tx.transactionState {
+                case .Purchased, .Restored:
+                    println("product purchased/restored")
+                    //notify delegate if one exists
+                    if let delegate = delegate {
+                        delegate.purchaseSuccessful(tx.payment.productIdentifier)
+                    }
+                    queue.finishTransaction(tx)
+                    if purchaseItem == .OneThousand {
+                        var totalCoins = defaults.integerForKey("totalCoins")
+                        totalCoins += 1000
+                        defaults.setInteger(totalCoins, forKey: "totalCoins")
+                    } else if purchaseItem == .FiveThousand {
+                        var totalCoins = defaults.integerForKey("totalCoins")
+                        totalCoins += 5000
+                        defaults.setInteger(totalCoins, forKey: "totalCoins")
+                    }
+                    break;
+                case .Failed:
+                    //delegate.purchaseFailed()
+                    queue.finishTransaction(tx)
+                    break;
+                case .Deferred:
+                    break;
+                case .Purchasing:
+                    break;
+                }
+            }
+        }
+    }
+    
+    func inAppPurchase1() {
+        purchaseItem = .OneThousand
+        attemptPurchase("oneThousandCoinsPurchase")
+    }
+    
+    func inAppPurchase2() {
+        purchaseItem = .FiveThousand
+        attemptPurchase("fiveThousandCoinsPurchase")
     }
 }

@@ -267,7 +267,7 @@
 				<key>displayName</key>
 				<string>Money Sign</string>
 				<key>memberVarAssignmentName</key>
-				<string></string>
+				<string>storeIcon10</string>
 				<key>memberVarAssignmentType</key>
 				<integer>1</integer>
 				<key>properties</key>
@@ -570,8 +570,6 @@
 						</array>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 			</dict>
 			<dict>
 				<key>UUID</key>
@@ -583,7 +581,7 @@
 				<key>customClass</key>
 				<string></string>
 				<key>displayName</key>
-				<string>Return Button</string>
+				<string>Home Button</string>
 				<key>memberVarAssignmentName</key>
 				<string></string>
 				<key>memberVarAssignmentType</key>
@@ -1141,7 +1139,7 @@
 			<key>name</key>
 			<string>Default Timeline</string>
 			<key>offset</key>
-			<real>0.0</real>
+			<real>0.059378623962402344</real>
 			<key>position</key>
 			<real>0.0</real>
 			<key>resolution</key>
