@@ -399,7 +399,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
             var n: AnyObject = scene.children[0]
             var image = screenShotWithStartNode(n as! CCNode)
             
-            let sharedText = "Share text"
+            let sharedText = "https://itunes.apple.com/us/app/rope-climber/id1024234569?ls=1&mt=8"
             let itemsToShare = [image, sharedText]
             
             var excludedActivities = [UIActivityTypePrint, UIActivityTypeCopyToPasteboard,
@@ -671,7 +671,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
         var randomPowerup = CCRANDOM_0_1() * 10
         var randomPosition = CCRANDOM_0_1() * 5
         switch randomPowerup {
-        case 0..<0.5:
+        case 0..<4:
             var magnet = CCBReader.load("MagnetPowerUp") as! MagnetPowerUp
             magnet.scale = 0.4
             magnet.positionType = CCPositionType(xUnit: .Normalized, yUnit: .Normalized, corner: .BottomLeft)
@@ -718,7 +718,7 @@ class MainScene: CCNode, CCPhysicsCollisionDelegate {
                     return
                 }
             }
-        case 0.5..<1:
+        case 4..<8:
             var armor = CCBReader.load("ArmorPowerUp") as! ArmorPowerUp
             armor.scale = 1.5
             armor.positionType = CCPositionType(xUnit: .Normalized, yUnit: .Normalized, corner: .BottomLeft)
